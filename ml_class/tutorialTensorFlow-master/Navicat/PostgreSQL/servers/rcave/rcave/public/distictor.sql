@@ -1,0 +1,1 @@
+SELECT DISTINCT ON (status) status,updated_at FROM sensorenv ORDER BY status, updated_at DESC;
