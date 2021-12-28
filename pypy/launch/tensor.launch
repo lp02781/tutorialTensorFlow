@@ -1,0 +1,4 @@
+<launch>
+	<node name="hehe" pkg="pypy" output="screen" type="hehe"/>
+	<node name="ann_minicar" pkg="pypy" type="ann_minicar.py" output="screen" />
+</launch>

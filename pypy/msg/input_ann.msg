@@ -1,0 +1,8 @@
+int32 number_input
+float64 v_minicar
+float64 dt_minicar
+float64 steering_minicar
+float64 Lf_minicar
+float64 throttle_minicar
+float64 cte_minicar
+float64 epsi_minicar

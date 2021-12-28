@@ -1,0 +1,4 @@
+<launch>
+	<node name="haha" pkg="pypy" output="screen" type="haha"/>
+	<node name="process" pkg="pypy" type="process.py" output="screen" />
+</launch>

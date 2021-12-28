@@ -1,0 +1,7 @@
+int32 number_output
+float64 px_act_minicar
+float64 py_act_minicar 
+float64 psi_act_minicar
+float64 v_act_minicar
+float64 cte_act_minicar
+float64 epsi_act_minicar
