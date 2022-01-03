@@ -1,0 +1,2 @@
+model_checkpoint_path: "ann_do"
+all_model_checkpoint_paths: "ann_do"
