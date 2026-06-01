@@ -1,30 +1,38 @@
-# GCN Example — Node Classification on the Karate Club Graph
+# GCN / GNN Examples — Graph Neural Networks
 
-A **Graph Convolutional Network** (Kipf & Welling, 2017), built from scratch, that
-classifies members of **Zachary's Karate Club** — a 34-person friendship network that
-split into two factions. The twist: we reveal the faction of only **2 nodes** (the two
-leaders) and let the GCN propagate that information across the friendship edges to
-classify everyone else. This is **semi-supervised node classification**.
+A set of **Graph Neural Network** examples covering the **three canonical graph tasks**
+(node-, graph-, and edge-level) plus an attention-based variant. Most use **Zachary's
+Karate Club** — a 34-person friendship network that split into two factions. Every example
+ships in both **TensorFlow/Keras** and **PyTorch** and needs no graph library (edges are
+hard-coded).
 
-## Notebooks
+## Examples
 
-| File | Framework |
-|------|-----------|
-| `gcn_karate_club.ipynb` | TensorFlow / Keras (`tensorflow==2.1`) |
-| `gcn_karate_club_pytorch.ipynb` | PyTorch (`torch`) |
+| # | Task | Notebooks | Idea |
+|---|------|-----------|------|
+| 1 | **Node classification** | `gcn_karate_club.ipynb` / `..._pytorch.ipynb` | Label every member from just **2** known labels |
+| 2 | **Graph classification** | `graph_classification.ipynb` / `..._pytorch.ipynb` | Label whole graphs (sparse vs dense) via readout pooling |
+| 3 | **Link prediction** | `link_prediction.ipynb` / `..._pytorch.ipynb` | Recover hidden edges (Graph Auto-Encoder) |
+| 4 | **Graph Attention (GAT)** | `gat_karate_club.ipynb` / `..._pytorch.ipynb` | Node classification with *learned* neighbour weights |
 
-Both implement the same model. No graph library (e.g. `networkx`) is required — the 78
-edges are hard-coded.
+Suggested order: **1 → 2 → 3 → 4**. Example 1 introduces the GCN layer; 2–3 reuse it for
+the other two task types; 4 swaps the layer itself.
+
+## The three task levels
+
+- **Node level** (ex. 1, 4): one prediction *per node*.
+- **Graph level** (ex. 2): one prediction *per graph* — needs a **readout** that pools all
+  node embeddings into one vector.
+- **Edge level** (ex. 3): predict *whether a link exists* — encode nodes, then score pairs
+  by embedding similarity.
 
 ## What you'll learn
 
-- The GCN layer `H' = σ(Â H W)` and how multiplying by the adjacency matrix mixes each
-  node with its neighbours (the "graph convolution")
-- Why we add **self-loops** (`Â = D⁻½(A+I)D⁻½`) and **degree-normalize** the adjacency
-- How a 2-layer GCN gives each node a **2-hop** receptive field — enough for 2 labels to
-  reach the whole graph
-- How the loss on just 2 nodes still trains the whole network via gradient flow through Â
-- *Over-smoothing*: why deeper isn't always better on small graphs
+- The GCN layer `H' = σ(Â H W)` and why we add self-loops + degree-normalize (ex. 1)
+- How a loss on 2 labels trains the whole graph via message passing (ex. 1)
+- **Readout / global pooling** for graph-level tasks (ex. 2)
+- **Negative sampling** and the **AUC** metric for link prediction (ex. 3)
+- **Attention** over neighbours — and how to *visualize* the learned weights (ex. 4)
 
 ## Run it
 
@@ -38,16 +46,9 @@ pip install torch matplotlib
 jupyter notebook gcn_karate_club_pytorch.ipynb
 ```
 
-Trains in **seconds on CPU** — no dataset download needed.
-
-## Output
-
-- Per-epoch training loss and full-graph accuracy (typically **30+/34 correct** from just
-  2 labels)
-- A PCA scatter plot of the learned node embeddings, coloured by predicted faction, with
-  the two labelled leaders circled — you should see two clean clusters.
+All examples train in **seconds on CPU** with **no dataset download**.
 
 ## See also
 
-- `../gan_example/` — generating images with adversarial training.
-- `../autoencoder_example/` — unsupervised representation learning on images.
+- `../gan_example/` and `../autoencoder_example/` — generative models on images. (The link
+  prediction example here is itself a *graph* auto-encoder.)
